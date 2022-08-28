@@ -44,6 +44,7 @@ class CreateOrUpdateProposal(CreateProposal):
 class Comment(CreateOrUpdateComment):
     id: int
     date: datetime.datetime
+    alias: str
 
     class Config:
         orm_mode = True
