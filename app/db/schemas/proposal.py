@@ -63,6 +63,7 @@ class Proposal(CreateOrUpdateProposal):
     date: datetime.datetime
     comments: t.List[Comment]
     addendums: t.List[Addendum]
+    references_meta: t.List
 
     class Config:
         orm_mode = True
@@ -80,3 +81,11 @@ class FollowProposalRequest(BaseModel):
 
 class AddReferenceRequest(BaseModel):
     referred_proposal_id: int
+
+class ProposalReference(BaseModel):
+    id: int
+    name: str
+    likes: t.List[int]
+    dislikes: t.List[int]
+    img: str
+

@@ -38,26 +38,26 @@ async def ergoauth_login_web(
     addresses: LoginRequest,
     db=Depends(get_db)
 ):
-    try:
-        # get primary address by default
-        default_address = addresses.addresses[0]
-        user = get_user_by_wallet_addresses(db, addresses.addresses)
-        if user:
-            default_address = get_primary_wallet_address_by_user_id(
-                db, user.id
-            )
-
-        verificationId = generate_verification_id()
-        tokenUrl = f"{BASE_URL}/api/auth/token/{verificationId}"
-        ret = LoginRequestWebResponse(
-            address=default_address,
-            signingMessage=generate_signing_message(),
-            tokenUrl=tokenUrl
+#try:
+    # get primary address by default
+    default_address = addresses.addresses[0]
+    user = get_user_by_wallet_addresses(db, addresses.addresses)
+    if user:
+        default_address = get_primary_wallet_address_by_user_id(
+            db, user.id
         )
-        cache.set(f"ergoauth_signing_request_{verificationId}", ret.dict())
-        return ret
-    except Exception as e:
-        return JSONResponse(status_code=400, content=f"ERR::login::{str(e)}")
+
+    verificationId = generate_verification_id()
+    tokenUrl = f"{BASE_URL}/api/auth/token/{verificationId}"
+    ret = LoginRequestWebResponse(
+        address=default_address,
+        signingMessage=generate_signing_message(),
+        tokenUrl=tokenUrl
+    )
+    cache.set(f"ergoauth_signing_request_{verificationId}", ret.dict())
+    return ret
+#except Exception as e:
+    return JSONResponse(status_code=400, content=f"ERR::login::{str(e)}")
 
 
 # should we add a response type here
