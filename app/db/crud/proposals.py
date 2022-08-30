@@ -96,7 +96,8 @@ def get_references_by_proposal_id(db: Session, proposal_id: int):
             name=db_proposal.name,
             img=db_proposal.image_url,
             likes=likes['likes'],
-            dislikes=likes['dislikes']
+            dislikes=likes['dislikes'],
+            is_proposal=db_proposal.is_proposal
         ))
 
     return {

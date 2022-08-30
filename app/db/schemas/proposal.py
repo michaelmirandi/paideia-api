@@ -88,4 +88,5 @@ class ProposalReference(BaseModel):
     likes: t.List[int]
     dislikes: t.List[int]
     img: str
+    is_proposal: bool
 
