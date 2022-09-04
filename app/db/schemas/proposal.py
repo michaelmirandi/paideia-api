@@ -24,8 +24,8 @@ class CreateProposal(BaseModel):
     content: t.Optional[str]
     voting_system: t.Optional[str]
     references: t.List[int]  # list of proposal ids
-    actions: t.List[dict]
-    tags: t.List[str]
+    actions: t.Optional[t.List[dict]]
+    tags: t.Optional[t.List[str]]
     attachments: t.List[str]
     is_proposal: bool
 
@@ -45,6 +45,7 @@ class CreateOrUpdateProposal(CreateProposal):
 class Comment(CreateOrUpdateComment):
     id: int
     date: datetime.datetime
+    alias: str
 
     class Config:
         orm_mode = True
@@ -63,6 +64,7 @@ class Proposal(CreateOrUpdateProposal):
     date: datetime.datetime
     comments: t.List[Comment]
     addendums: t.List[Addendum]
+    references_meta: t.List
 
     class Config:
         orm_mode = True
@@ -80,3 +82,12 @@ class FollowProposalRequest(BaseModel):
 
 class AddReferenceRequest(BaseModel):
     referred_proposal_id: int
+
+class ProposalReference(BaseModel):
+    id: int
+    name: str
+    likes: t.List[int]
+    dislikes: t.List[int]
+    img: str
+    is_proposal: bool
+
