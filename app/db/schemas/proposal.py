@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 import typing as t
 import datetime
+from fastapi.datastructures import UploadFile
 
 
 class CreateOrUpdateComment(BaseModel):
@@ -18,7 +19,7 @@ class CreateProposal(BaseModel):
     dao_id: int
     user_id: int
     name: str
-    image_url: t.Optional[str]
+    image: t.Optional[UploadFile]
     category: t.Optional[str]
     content: t.Optional[str]
     voting_system: t.Optional[str]
