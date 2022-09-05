@@ -19,7 +19,7 @@ class CreateProposal(BaseModel):
     dao_id: int
     user_id: int
     name: str
-    image: t.Optional[UploadFile]
+    image_url: t.Optional[str]
     category: t.Optional[str]
     content: t.Optional[str]
     voting_system: t.Optional[str]

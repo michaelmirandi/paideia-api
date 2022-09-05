@@ -6,8 +6,6 @@ from sqlalchemy.sql.functions import array_agg
 from sqlalchemy import literal_column
 from db.models.users import User
 
-from api.util import upload_file
-
 from db.models.proposals import Proposal, ProposalReference, ProposalLike, ProposalFollower, Comment, Addendum
 from db.schemas.proposal import ProposalReference as ProposalReferenceSchema, Proposal as ProposalSchema, CreateProposal as CreateProposalSchema, Comment as CommentSchema, UpdateProposalBasic as UpdateProposalBasicSchema, CreateOrUpdateAddendum, CreateOrUpdateComment
 
@@ -214,12 +212,11 @@ def get_proposals_by_dao_id(db: Session, dao_id: int):
     return proposals
 
 def create_new_proposal(db: Session, proposal: CreateProposalSchema):
-    image_url = upload_file(proposal.image)
     db_proposal = Proposal(
         dao_id=proposal.dao_id,
         user_id=proposal.user_id,
         name=proposal.name,
-        image_url=image_url,
+        image_url=proposal.image_url,
         category=proposal.category,
         content=proposal.content,
         voting_system=proposal.voting_system,

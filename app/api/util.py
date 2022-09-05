@@ -15,23 +15,6 @@ CFG = Config[Network]
 
 util_router = r = APIRouter()
 
-def upload_file(fileobject: UploadFile = File(...)) -> str:
-    filename = fileobject.filename
-    current_time = datetime.datetime.now()
-    # split the file name into two different path (string + extention)
-    split_file_name = os.path.splitext(filename)
-    # for realtime application you must have genertae unique name for the file
-    file_name_unique = split_file_name[0] + "." + \
-        str(current_time.timestamp()).replace('.', '')
-    file_extension = split_file_name[1]  # file extention
-    data = fileobject.file._file  # Converting tempfile.SpooledTemporaryFile to io.BytesIO
-    filename_mod = CFG.s3Key + "." + file_name_unique + file_extension
-    uploads3 = S3.Bucket(CFG.s3Bucket).put_object(
-        Key=filename_mod, Body=data, ACL='public-read')
-    if uploads3:
-        return f"https://{CFG.s3Bucket}.s3.{CFG.awsRegion}.amazonaws.com/{filename_mod}"
-        
-
 @r.post("/upload_file", name="util:upload-file-to-S3")
 def upload(fileobject: UploadFile = File(...), current_user=Depends(get_current_active_user)):
     """
