@@ -21,6 +21,7 @@ class Proposal(Base):
     tags = Column(JSON)
     attachments = Column(JSON)
     date = Column(DateTime(timezone=True), server_default=func.now())
+    status = Column(String)
     is_proposal = Column(Boolean)
 
 
@@ -50,6 +51,15 @@ class ProposalLike(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     proposal_id = Column(Integer)
+    user_id = Column(Integer)
+    liked = Column(Boolean)
+
+
+class ProposalCommentLike(Base):
+    __tablename__ = "proposal_comments_likes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    comment_id = Column(Integer)
     user_id = Column(Integer)
     liked = Column(Boolean)
 
